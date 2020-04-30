@@ -28,7 +28,9 @@ acls <- pcls-.116
 # Odds Ratio 0.66, 95% CI [0.43 to 1.01].
 # Absolute Difference, -3.6%, 95% CI [-6.2% to 0.1%]
 
-
+# chi-squared test
+x <- matrix (c(40,460,58,442) , nrow =2 , byrow = TRUE )
+chisq.test (x , correct = FALSE )
 
 
 
