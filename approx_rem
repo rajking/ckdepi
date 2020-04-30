@@ -1,0 +1,18 @@
+# Approximating Confidence Interval for NIAID remdesivir study
+# time to event data not available
+
+
+require(rms)
+
+# Logistic Prop Odds Analysis. Assumes 31% improvement for 1000 pts meeting endpoint.
+# data from figure 3
+
+a1 <- c(rep(1,177), rep(2,202), rep(3,121))
+b1 <- c(rep(1,150), rep(2,200), rep(3,150))
+x1 <- c(rep('remdesivir', length(a1)), rep('placebo', length(b1)))
+y1 <- c(a1, b1)
+
+f1 <- lrm(y1 ~ x1)
+f1
+summary(f1, x1='remdesivir')
+
