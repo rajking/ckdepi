@@ -4,6 +4,34 @@
 
 require(rms)
 
+
+# setting up data, assume 1000 pts, mortality 8% vs 11.6%
+n1 <- 500; n2 <- 500
+p1 <- 40/n1 ; p2 <- 58/n2
+o1 <- p1/(1-p1) ; o2 <- (p2/(1-p2))
+or <- o1/o2
+or
+
+# standard error of log odds ratio
+selor <- sqrt (1 ( n1 * p1 * (1 - p1 ) ) + 1 / ( n2 * p2 * (1 - p2 ) ))
+# 95 CI
+cls <- exp(log(or) + c(-1 , 1) * qnorm (0.975 ) * selor )
+cls
+
+#range of possible odds for intervention given odds of control & 95% CI
+cls*o2
+
+#convert odds back to percentages
+pcls <- cls*o2/(cls*o2+1)
+acls <- pcls-.116
+
+# Odds Ratio 0.66, 95% CI [0.43 to 1.01].
+# Absolute Difference, -3.6%, 95% CI [-6.2% to 0.1%]
+
+
+
+
+
 # Logistic Prop Odds Analysis. Assumes 31% improvement for 1000 pts meeting endpoint.
 # data from figure 3
 
@@ -15,4 +43,5 @@ y1 <- c(a1, b1)
 f1 <- lrm(y1 ~ x1)
 f1
 summary(f1, x1='remdesivir')
+
 
