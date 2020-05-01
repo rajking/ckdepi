@@ -21,10 +21,13 @@ f <- lrm(death~priority)
 f
 summary(f)
 
-#absolute difference
-lor <- 1.51
-cl <- c(0.99,2.33)
-rr <- lor/(1-0.116+lor*0.116) # rough conversion of OR to rr w/ prev 0.116
-cl2 <- cl/(1-0.116+cl*0.116)
-8*(1-rr) # -3.4%
-8*(1-cl2) # -8.1% to 0.1%
+#risk difference
+or <- 1/1.51
+cl <- 1/c(2.33,0.99)
+pr <- 0.116 # sets baseline risk
+rr <- or/(1-pr+or*pr) # conversion of OR to rr 
+cl2 <- cl/(1-pr+cl*pr)
+pr*(rr-1) # -3.6%
+pr*(cl2-1) # -6.3% to 0.1%
+
+
