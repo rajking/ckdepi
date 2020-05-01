@@ -1,8 +1,38 @@
 # Approximating Confidence Interval for NIAID remdesivir study
-# time to event data not available
 
 
 require(rms)
+
+# Atlman CI from p-values
+# https://www.bmj.com/content/343/bmj.d2090
+
+p1 <- 0.08 ; p2 <- 0.116
+o1 <- p1/(1-p1) ; o2 <- (p2/(1-p2))
+or <- o1/o2 ; or
+
+p <- 0.059
+
+z <- -0.862+sqrt(0.743-2.404*log(p))
+lor <- log(or) 
+se <- abs(lor/z) 
+logcl <- c(lor-2*se,lor+2*se)
+cl <- exp(logcl)
+
+p
+cl # confidence interval for OR
+
+
+# risk difference calculation
+# https://www.bmj.com/content/348/bmj.f7450
+
+or
+cl
+pr <- 0.116 # sets baseline risk
+rr <- or/(1-pr+or*pr) # conversion of OR to rr 
+cl2 <- cl/(1-pr+cl*pr)
+pr*(1-rr)*100 # risk difference
+pr*(1-cl2)*100 # 95% CI for Risk Difference
+
 
 # logistic regression model
 
@@ -13,7 +43,6 @@ e1 <- round(p1*n1) ; e2 <- round(p2*n2)
 priority <- factor(c(rep("remdesivir",n2),rep("placebo",n1)),c("placebo","remdesivir"))
 death <- c(rep (0,e2) , rep (1,n2-e2) , rep (0,e1) , rep (1,n1-e1) )
 
-
 d <- data.frame(priority,death)
 dd <- datadist(d); options(datadist='dd')
 
@@ -21,13 +50,7 @@ f <- lrm(death~priority)
 f
 summary(f)
 
-#risk difference
-or <- 1/1.51
-cl <- 1/c(2.33,0.99)
-pr <- 0.116 # sets baseline risk
-rr <- or/(1-pr+or*pr) # conversion of OR to rr 
-cl2 <- cl/(1-pr+cl*pr)
-pr*(rr-1) # -3.6%
-pr*(cl2-1) # -6.3% to 0.1%
+# inter 2.45, slope -0.42
+# summary table, 1st line is Log reg (exp fxn), 2nd line is converted to OR
 
 
