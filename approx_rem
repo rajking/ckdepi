@@ -36,7 +36,7 @@ pr*(1-cl2)*100 # 95% CI for Risk Difference
 
 # logistic regression model
 
-n1 <- (1063-648) ; n2 <- (1063-n1)
+n1 <- (415) ; n2 <- (1063-n1) # n1 of 415 gives closest approx to desired p-value
 p1 <- 0.08 ; p2 <- 0.116
 e1 <- round(p1*n1) ; e2 <- round(p2*n2)
 
@@ -49,8 +49,5 @@ dd <- datadist(d); options(datadist='dd')
 f <- lrm(death~priority)
 f
 summary(f)
-
-# inter 2.45, slope -0.42
-# summary table, 1st line is Log reg (exp fxn), 2nd line is converted to OR
 
 
